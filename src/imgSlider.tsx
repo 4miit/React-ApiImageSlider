@@ -1,43 +1,44 @@
 interface sliderProps {
-  page: number;
-  setPage: (page: number) => void;
+  p: number;
+  q: (p: number) => void;
 }
 
-export default function Slider({ page, setPage }: sliderProps) {
-  const prevThreeNoArr = Array.from(
-    { length: 3 },
-    (_, index) => page - 1 - index
-  )
+export default function Slider({ p, q }: sliderProps) {
+
+  const prevThreeNoArr = Array.from({ length: 3 }, (_, index) => p - (1 + index))
     .filter((value) => value > 0)
     .reverse();
-  const nextFourNoArr = Array.from({ length: 4 }, (_, index) => page + index);
+
+  const nextFourNoArr = Array.from({ length: 4 }, (_, index) => p + index);
 
   const pageArr = [...prevThreeNoArr, ...nextFourNoArr];
 
   console.log(prevThreeNoArr);
 
   const handelNext = () => {
-    setPage(page + 1);
+    q(p + 1);
   };
 
   const handelPrev = () => {
-    setPage(page - 1);
+    q(p - 1);
   };
 
   return (
     <div className="page-container">
-      {page > 1 ? (
+      {p > 1 ? (
         <div onClick={handelPrev} className="page-btn">
           {"<"}
         </div>
       ) : (
         ""
       )}
-      {pageArr.map((val) => {
+
+      {pageArr.map((val,index) => {
         return (
           <div
-            onClick={() => setPage(val)}
-            className={val == page ? `page-btn active` : `page-btn`}
+            onClick={() => q(val)}
+            className={val == p ? "page-btn active" : `page-btn`}
+            key={index}
           >
             {val}
           </div>
